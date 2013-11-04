@@ -80,6 +80,23 @@ class Article < Content
     Article.exists?({:parent_id => self.id})
   end
 
+  def merge_with(art_id)
+    art = Article.find_by_id(art_id)
+    if self.id == nil  or art == nil
+      return false
+    end
+    # add new content from 'art' to this article
+    self.body = self.body + art.body
+    # append the comments from 'art' to this article
+    art.comments.each do |comm|
+      self.comments << comm
+    end
+    self.save!
+    art.reload.destroy
+    # need to delete each comment iterativly, not with destroy command
+    return true
+  end
+
   attr_accessor :draft, :keywords
 
   has_state(:state,
