@@ -4,10 +4,7 @@ Feature: merging articles
   So that they can be merged into one article
 
 Background: adding articles and users
-  Given the following users exist:
-  | login    | password | email | profile_id  | name     | state  |
-  | nonadmin | abcd1234 | a@b.c | 2           | nonadmin | active |
-  | anadmin  | xyz567   | x@y.z | 3           | anadmin  | active |
+  Given the blog is set up
 
   Given the following articles exist:
   | id | title         | author   | body    | published |
@@ -16,18 +13,19 @@ Background: adding articles and users
   | 3  | Legit Article | anadmin  | legit   | true      |
 
 Scenario: A non-admin cannot merge two articles
-  Given the blog is set up
   And I am logged into the admin panel
   When I follow "All Articles"
   When I follow "Test Article"
-  Then I should see "Merge With This Article"
+  Then I should see "Merge Articles"
 
 
 Scenario: When articles are merged, the merged article should contain the text of both previous articles
   Given articles "1" and "3" were merged
+  And I am logged into the admin panel
+  #When I go to the edit page for article "3"
   When I follow "All Articles"
-  Then I should see "Articles merged successfully"
-  And I should see "content"
+  When I follow "Legit Article"
+  Then I should see "content"
   And I should see "legit"
 
 #Scenario: merged articles should have one author
