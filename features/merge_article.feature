@@ -25,10 +25,9 @@ Scenario: A non-admin cannot merge two articles
 
 Scenario: When articles are merged, the merged article should contain the text of both previous articles
   Given articles "1" and "3" were merged
-  #And I am logged into the admin panel
-  Then I should see "Test Article"
-  When I follow "Test Article"
-  Then I should see "content"
+  When I follow "All Articles"
+  Then I should see "Articles merged successfully"
+  And I should see "content"
   And I should see "legit"
 
 #Scenario: merged articles should have one author

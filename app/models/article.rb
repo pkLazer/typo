@@ -81,10 +81,7 @@ class Article < Content
   end
 
   def merge_with(art_id)
-    art = Article.find_by_id(art_id)
-    if self.id == nil  or art == nil
-      return false
-    end
+    art = Article.find_by_id!(art_id)
     # add new content from 'art' to this article
     self.body = self.body + art.body
     # append the comments from 'art' to this article
