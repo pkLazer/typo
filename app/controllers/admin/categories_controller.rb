@@ -25,7 +25,10 @@ class Admin::CategoriesController < Admin::BaseController
 
   def new_or_edit
     @categories = Category.find(:all)
-    @category = Category.find(params[:id])
+    @category = Category.find(params[:id]) if params[:id]
+    if @category.nil?
+      @category = Category.new
+    end
     @category.attributes = params[:category]
     if request.post?
       respond_to do |format|
@@ -43,7 +46,7 @@ class Admin::CategoriesController < Admin::BaseController
   end
 
   def save_category
-    if @category.save!
+    if @category.save
       flash[:notice] = _('Category was successfully saved.')
     else
       flash[:error] = _('Category could not be saved.')
