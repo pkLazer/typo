@@ -27,6 +27,7 @@ class Admin::CategoriesController < Admin::BaseController
     @categories = Category.find(:all)
     @category = Category.find(params[:id]) if params[:id]
     if @category.nil?
+      # create a new category
       @category = Category.new
     end
     @category.attributes = params[:category]
